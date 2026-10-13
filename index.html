@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cuestionario de funciones de liderazgo</title>
+<style>
+:root{--ink:#1e293b;--sub:#58677b;--brand:#235c86;--bg:#f4f7fa;--edge:#dce4ed;--light:#e8f1f8;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}.wrap{max-width:930px;margin:32px auto 80px;padding:0 18px}header{background:#123d5b;color:white;border-radius:18px;padding:32px;margin-bottom:22px}h1{font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.2;margin:0 0 12px}header p{color:#dbeaf4;margin:0;max-width:720px}.panel{background:white;border:1px solid var(--edge);border-radius:16px;padding:23px;margin:16px 0;box-shadow:0 3px 16px #22334408}.instructions{font-size:.98rem;color:var(--sub)}.legend{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:16px}.legend span{background:var(--light);padding:7px 10px;border-radius:9px;font-size:.82rem}.sticky-progress{position:sticky;top:0;background:#f4f7faf2;backdrop-filter:blur(8px);z-index:2;padding:12px 0 9px}.progress-info{display:flex;justify-content:space-between;gap:10px;font-weight:650;font-size:.9rem}.track{height:8px;background:#d9e3eb;border-radius:20px;overflow:hidden;margin-top:7px}.fill{height:100%;background:#2b7fa9;width:0;transition:width .2s}.question{border-top:1px solid #e7edf2;padding:18px 0}.question:first-child{border-top:none}.question.missing{background:#fff6ec;outline:2px solid #c67827;border-radius:9px;padding:14px;margin:7px -8px}.q-title{font-weight:610;margin-bottom:12px}.q-number{color:var(--brand);font-weight:750;margin-right:9px}.choices{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.choice{position:relative}.choice input{position:absolute;opacity:0;width:1px;height:1px}.choice label{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #cbd8e3;border-radius:8px;cursor:pointer;background:white;font-weight:650}.choice input:checked+label{background:#1f628d;color:#fff;border-color:#1f628d}.choice input:focus-visible+label{outline:3px solid orange;outline-offset:2px}.scale-ends{display:flex;justify-content:space-between;color:var(--sub);font-size:.75rem;margin-top:6px}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:15px}button{border:0;background:#185981;color:white;font-size:1rem;font-weight:700;padding:14px 24px;border-radius:10px;cursor:pointer}button.secondary{background:#eaf1f6;color:#17435c}button:hover{filter:brightness(.95)}.error{color:#ad440d;font-weight:650}.hidden{display:none!important}.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.result{padding:18px;border:1px solid var(--edge);border-radius:12px;background:#fbfdff}.result h3{margin:0 0 8px;font-size:1rem}.score{font-size:2rem;font-weight:760;color:#1e5b7d}.score small{font-size:.85rem;font-weight:500;color:var(--sub)}.meter{height:10px;background:#dfe8f0;border-radius:20px;overflow:hidden;margin-top:9px}.meter>div{background:#2f7fa4;height:100%;width:0}.detail{font-size:.82rem;color:var(--sub);margin-top:9px}.note{color:var(--sub);font-size:.89rem}.footer{text-align:center;color:var(--sub);font-size:.8rem;margin-top:24px}@media(max-width:650px){.wrap{margin-top:12px;padding:0 10px}header{padding:23px 18px}.panel{padding:17px}.result-grid{grid-template-columns:1fr}.legend{display:grid;grid-template-columns:1fr 1fr}.legend span:last-child{grid-column:span 2}.q-title{font-size:.97rem}}
+@media print{.sticky-progress,.actions,#questionPanel,header,.footer{display:none!important}body{background:white}.panel{border:0;box-shadow:none}#results{display:block!important}}
+</style>
+</head>
+<body><main class="wrap">
+<header><h1>Cuestionario de funciones de liderazgo</h1><p>Valora cuánto estás de acuerdo con cada una de las siguientes afirmaciones. No hay respuestas correctas ni incorrectas.</p></header>
+<section class="panel instructions" id="intro"><strong>Instrucciones.</strong> Selecciona una opción de 1 a 5 en cada una de las 28 frases. Al finalizar verás tus cuatro puntuaciones, calculadas por separado.<div class="legend"><span><strong>1</strong> Totalmente en desacuerdo</span><span><strong>2</strong> En desacuerdo</span><span><strong>3</strong> Ni de acuerdo ni en desacuerdo</span><span><strong>4</strong> De acuerdo</span><span><strong>5</strong> Totalmente de acuerdo</span></div></section>
+<div class="sticky-progress" id="progressArea"><div class="progress-info"><span>Progreso del cuestionario</span><span id="progressText">0 de 28 respondidas</span></div><div class="track"><div class="fill" id="progressFill"></div></div></div>
+<section class="panel" id="questionPanel"><form id="survey" novalidate><div id="questions"></div><div class="actions"><button type="submit">Ver mis cuatro puntuaciones</button><span id="feedback" class="error" role="alert" aria-live="polite"></span></div></form></section>
+<section class="panel hidden" id="results" tabindex="-1" aria-live="polite"><h2>Mis resultados</h2><p>Estas son tus cuatro puntuaciones. Cada función suma siete respuestas: el mínimo es 7 y el máximo 35.</p><div class="result-grid" id="resultGrid"></div><p class="note">Estas puntuaciones son descriptivas y no implican una clasificación o diagnóstico. Para interpretarlas se necesitarían criterios o baremos del instrumento.</p><div class="actions"><button type="button" onclick="window.print()">Imprimir o guardar en PDF</button><button class="secondary" type="button" id="edit">Revisar mis respuestas</button><button class="secondary" type="button" id="restart">Comenzar de nuevo</button></div></section>
+<p class="footer">Las respuestas se procesan únicamente en este navegador. Esta página no las envía a ningún servidor.</p>
+</main>
+<script>
+'use strict';
+const statements=[
+'Expreso mis sentimientos a los demás',
+'Soy comprensivo con los demás',
+'Aclaro los sentimientos de los otros',
+'Sugiero o establezco los límites de las actuaciones',
+'Ofrezco mi amistad a los demás',
+'Cuestiono el comportamiento de los otros',
+'Conceptualizo las ideas',
+'Obtengo ideas u opiniones de los demás',
+'Gestiono mi tiempo y el de los demás',
+'Afronto las situaciones',
+'Interpreto las afirmaciones de los demás',
+'Felicito los logros de otros',
+'Acepto a los demás como son',
+'Ofrezco retos a los demás',
+'Gestiono actividades que implican otras personas',
+'Explico las situaciones',
+'Participo activamente en los diálogos',
+'Pregunto la opinión a los demás',
+'Estoy emocionalmente accesible',
+'Resumo las afirmaciones que hacen otros',
+'Sugiero formas de actuar',
+'Soy sincero',
+'Asumo riesgos',
+'Traduzco comportamientos en ideas',
+'Desarrollo una relación cercana con los demás',
+'Gestiono la toma de decisiones y la resolución del problema',
+'Ayudo a que los demás comprendan sus experiencias',
+'Soy una fuente de inspiración para los demás'];
+const groups=[
+{name:'Función Ejecutiva',items:[4,8,9,15,18,21,26]},
+{name:'Función Atribución del significado',items:[3,7,11,16,20,24,27]},
+{name:'Función Preocupación por los demás',items:[2,5,12,13,19,22,25]},
+{name:'Función Estímulo emocional',items:[1,6,10,14,17,23,28]}];
+// Comprobación automática de que las 28 frases están asignadas una sola vez.
+const all=groups.flatMap(g=>g.items);
+if(all.length!==28 || new Set(all).size!==28 || all.some(n=>n<1||n>28)) throw Error('Asignación de frases incorrecta');
+const questions=document.getElementById('questions');
+statements.forEach((s,i)=>{
+ const n=i+1,section=document.createElement('section');section.className='question';section.id=`q${n}`;
+ const caption=document.createElement('div');caption.className='q-title';caption.id=`title${n}`;caption.textContent=`${n}. ${s}`;section.appendChild(caption);
+ const choices=document.createElement('div');choices.className='choices';choices.setAttribute('role','radiogroup');choices.setAttribute('aria-labelledby',caption.id);
+ for(let v=1;v<=5;v++){
+  const c=document.createElement('div');c.className='choice';
+  const input=document.createElement('input');input.type='radio';input.name=`q${n}`;input.id=`q${n}_${v}`;input.value=String(v);input.required=true;
+  const label=document.createElement('label');label.htmlFor=input.id;label.textContent=String(v);
+  c.append(input,label);choices.appendChild(c);
+ }
+ section.appendChild(choices);const ends=document.createElement('div');ends.className='scale-ends';ends.innerHTML='<span>Totalmente en desacuerdo</span><span>Totalmente de acuerdo</span>';section.appendChild(ends);questions.appendChild(section);
+});
+function responses(){return statements.map((_,i)=>{const x=document.querySelector(`input[name="q${i+1}"]:checked`);return x?Number(x.value):null;});}
+function progress(){const count=responses().filter(x=>x!==null).length;document.getElementById('progressText').textContent=`${count} de 28 respondidas`;document.getElementById('progressFill').style.width=`${count/28*100}%`;}
+document.getElementById('survey').addEventListener('change',e=>{if(e.target.matches('input[type="radio"]')){e.target.closest('.question').classList.remove('missing');document.getElementById('feedback').textContent='';progress();}});
+document.getElementById('survey').addEventListener('submit',e=>{
+ e.preventDefault();const values=responses();const first=values.indexOf(null);
+ if(first>=0){document.querySelectorAll('.question').forEach((q,i)=>q.classList.toggle('missing',values[i]===null));document.getElementById('feedback').textContent=`Te faltan ${values.filter(x=>x===null).length} frases por responder.`;document.getElementById(`q${first+1}`).scrollIntoView({behavior:'smooth',block:'center'});return;}
+ const grid=document.getElementById('resultGrid');grid.innerHTML='';
+ groups.forEach(g=>{const score=g.items.reduce((sum,n)=>sum+values[n-1],0);const card=document.createElement('div');card.className='result';
+  const heading=document.createElement('h3');heading.textContent=g.name;
+  const value=document.createElement('div');value.className='score';value.textContent=String(score);const max=document.createElement('small');max.textContent=' / 35';value.appendChild(max);
+  const meter=document.createElement('div');meter.className='meter';const bar=document.createElement('div');bar.style.width=`${score/35*100}%`;meter.appendChild(bar);
+  const detail=document.createElement('div');detail.className='detail';detail.textContent=`Suma de las frases ${g.items.join(', ')}`;
+  card.append(heading,value,meter,detail);grid.appendChild(card);
+ });
+ document.getElementById('questionPanel').classList.add('hidden');document.getElementById('intro').classList.add('hidden');document.getElementById('progressArea').classList.add('hidden');document.getElementById('results').classList.remove('hidden');document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('results').focus({preventScroll:true});
+});
+document.getElementById('edit').addEventListener('click',()=>{document.getElementById('results').classList.add('hidden');document.getElementById('questionPanel').classList.remove('hidden');document.getElementById('intro').classList.remove('hidden');document.getElementById('progressArea').classList.remove('hidden');document.getElementById('questionPanel').scrollIntoView({behavior:'smooth'});});
+document.getElementById('restart').addEventListener('click',()=>{document.getElementById('survey').reset();document.getElementById('results').classList.add('hidden');document.getElementById('questionPanel').classList.remove('hidden');document.getElementById('intro').classList.remove('hidden');document.getElementById('progressArea').classList.remove('hidden');document.querySelectorAll('.missing').forEach(x=>x.classList.remove('missing'));document.getElementById('feedback').textContent='';progress();window.scrollTo({top:0,behavior:'smooth'});});
+progress();
+</script>
+</body></html>
